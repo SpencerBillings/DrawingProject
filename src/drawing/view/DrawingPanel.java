@@ -1,5 +1,6 @@
 package drawing.view;
 
-public class DrawingPanel {
+public class DrawingPanel 
+{
 
 }
