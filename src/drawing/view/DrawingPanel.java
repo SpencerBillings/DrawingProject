@@ -3,8 +3,7 @@ package drawing.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -22,8 +21,8 @@ public class DrawingPanel extends JPanel
 	private JButton orange;
 	private JButton yellow;
 	private JButton green;
+	private JButton cyan;
 	private JButton blue;
-	private JButton indigo;
 	private JButton violet;
 	private JButton black;
 	
@@ -54,8 +53,8 @@ public class DrawingPanel extends JPanel
 		orange = new JButton("   ");
 		yellow = new JButton("   ");
 		green = new JButton("   ");
+		cyan = new JButton("   ");
 		blue = new JButton("   ");
-		indigo = new JButton("   ");
 		violet = new JButton("   ");
 		black = new JButton("   ");
 		
@@ -78,7 +77,32 @@ public class DrawingPanel extends JPanel
 	
 	private void setupMenuPanels()
 	{
+		colorButtons.setPreferredSize(new Dimension(50, 700));
+		functionButtons.setPreferredSize(new Dimension(50, 700));
 		
+		red.setForeground(Color.RED);
+		orange.setForeground(Color.ORANGE);
+		yellow.setForeground(Color.YELLOW);
+		green.setForeground(Color.GREEN);
+		cyan.setForeground(Color.CYAN);
+		blue.setForeground(Color.BLUE);
+		violet.setForeground(new Color(75, 0, 130));
+		black.setForeground(Color.BLACK);
+		
+		colorButtons.add(white);
+		colorButtons.add(red);
+		colorButtons.add(orange);
+		colorButtons.add(yellow);
+		colorButtons.add(green);
+		colorButtons.add(cyan);
+		colorButtons.add(blue);
+		colorButtons.add(violet);
+		colorButtons.add(black);
+		
+		functionButtons.add(widthSlider);
+		functionButtons.add(clearButton);
+		functionButtons.add(saveButton);
+		functionButtons.add(loadButton);
 	}
 	
 	private void setupPanel()
@@ -90,19 +114,6 @@ public class DrawingPanel extends JPanel
 		this.add(colorButtons);
 		this.add(functionButtons);
 		
-		colorButtons.add(white);
-		colorButtons.add(red);
-		colorButtons.add(orange);
-		colorButtons.add(yellow);
-		colorButtons.add(green);
-		colorButtons.add(blue);
-		colorButtons.add(indigo);
-		colorButtons.add(violet);
-		colorButtons.add(black);
-		
-		functionButtons.add(clearButton);
-		functionButtons.add(saveButton);
-		functionButtons.add(loadButton);
 	}
 	
 	private void setupSlider()
@@ -121,7 +132,9 @@ public class DrawingPanel extends JPanel
 	
 	private void setupScrollPane()
 	{
-		
+		canvasScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		canvasScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		canvasScroll.setViewportView(canvas);
 	}
 	
 	private void setupLayout()
@@ -142,8 +155,53 @@ public class DrawingPanel extends JPanel
 		
 	}
 	
+	// Listeners are interfaces, meaning you must implement all of the methods
 	private void setupListeners()
 	{
+		canvas.addMouseListener(new MouseListener()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				
+			}
+			
+			public void mousePressed(MouseEvent e)
+			{
+				
+			}
+			
+			public void mouseReleased(MouseEvent e)
+			{
+				
+			}
+			
+			public void mouseEntered(MouseEvent e)
+			{
+				
+			}
+			
+			public void mouseExited(MouseEvent e)
+			{
+				
+			}
+			
+		});
+		
+		canvas.addMouseMotionListener(new MouseMotionListener() 
+		{
+			public void mouseDragged(MouseEvent e)
+			{
+				
+			}
+			
+			public void mouseMoved(MouseEvent e)
+			{
+				
+			}
+			
+			
+		});
+		
 		white.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent click)
@@ -184,7 +242,7 @@ public class DrawingPanel extends JPanel
 			}
 		});
 		
-		blue.addActionListener(new ActionListener()
+		cyan.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent click)
 			{
@@ -192,7 +250,7 @@ public class DrawingPanel extends JPanel
 			}
 		});
 		
-		indigo.addActionListener(new ActionListener()
+		blue.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent click)
 			{
