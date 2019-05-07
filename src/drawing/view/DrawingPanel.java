@@ -5,18 +5,15 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
-
+import javax.swing.*;
 import drawing.controller.DrawingController;
 
 public class DrawingPanel extends JPanel
 {
 	private DrawingController app;
+	private ArtPanel canvas;
 	private SpringLayout appLayout;
 	
 	private JPanel colorButtons;
@@ -35,46 +32,53 @@ public class DrawingPanel extends JPanel
 	private JButton saveButton;
 	private JButton clearButton;
 	
-	private JScrollPane horiScroll;
-	private JScrollPane vertiScroll;
+	private JScrollPane canvasScroll;
 	
 	private ImageIcon duckIcon;
+	
+	private JSlider widthSlider;
+	
+	private final int MINIMUM_LINE = 1;
+	private final int MAXIMUM_LINE = 25;
 	
 	public DrawingPanel(DrawingController app)
 	{
 		super();
-		this.app = app;
-		this.appLayout = new SpringLayout();
+		app = app;
+		canvas = new ArtPanel(app);
+		appLayout = new SpringLayout();
 		
-		this.colorButtons = new JPanel(new GridLayout(9, 1));
-		appLayout.putConstraint(SpringLayout.WEST, colorButtons, 51, SpringLayout.WEST, this);
-		this.white = new JButton("   ");
-		white.setForeground(Color.WHITE);
-		this.red = new JButton("   ");
-		red.setBackground(Color.RED);
-		red.setForeground(Color.RED);
-		this.orange = new JButton("   ");
-		orange.setForeground(Color.ORANGE);
-		orange.setBackground(new Color(255, 200, 0));
-		this.yellow = new JButton("   ");
-		this.green = new JButton("   ");
-		this.blue = new JButton("   ");
-		this.indigo = new JButton("   ");
-		this.violet = new JButton("   ");
-		this.black = new JButton("   ");
+		colorButtons = new JPanel(new GridLayout(0, 1));
+		white = new JButton("   ");
+		red = new JButton("   ");
+		orange = new JButton("   ");
+		yellow = new JButton("   ");
+		green = new JButton("   ");
+		blue = new JButton("   ");
+		indigo = new JButton("   ");
+		violet = new JButton("   ");
+		black = new JButton("   ");
 		
-		this.functionButtons = new JPanel(new GridLayout(3, 1));
-		appLayout.putConstraint(SpringLayout.NORTH, colorButtons, 59, SpringLayout.SOUTH, functionButtons);
-		this.loadButton = new JButton("Load");
-		this.saveButton = new JButton("Save");
-		this.clearButton = new JButton("Clear");
+		functionButtons = new JPanel(new GridLayout(0, 1));
+		loadButton = new JButton("Load");
+		saveButton = new JButton("Save");
+		clearButton = new JButton("Clear");
 		
-		this.horiScroll = new JScrollPane();
-		this.vertiScroll = new JScrollPane();
+		canvasScroll = new JScrollPane();
 		
+		widthSlider = new JSlider(MINIMUM_LINE, MAXIMUM_LINE);
+		
+		setupMenuPanels();
 		setupPanel();
+		setupSlider();
+		setupScrollPane();
 		setupLayout();
 		setupListeners();
+	}
+	
+	private void setupMenuPanels()
+	{
+		
 	}
 	
 	private void setupPanel()
@@ -82,8 +86,7 @@ public class DrawingPanel extends JPanel
 		this.setLayout(appLayout);
 		this.setPreferredSize(new Dimension (800, 800));
 		this.setBackground(Color.DARK_GRAY);
-		this.add(horiScroll);
-		this.add(vertiScroll);
+		this.add(canvasScroll);
 		this.add(colorButtons);
 		this.add(functionButtons);
 		
@@ -102,6 +105,20 @@ public class DrawingPanel extends JPanel
 		functionButtons.add(loadButton);
 	}
 	
+	private void setupSlider()
+	{
+		Hashtable<Integer, JLabel> scaleLabels = new Hashtable<Integer, JLabel>();
+		scaleLabels.put(MINIMUM_LINE, new JLabel("<HTML>Small<BR>Line</HTML>"));
+		scaleLabels.put(MAXIMUM_LINE, new JLabel("<HTML>Small<BR>Line</HTML>"));
+		widthSlider.setLabelTable(scaleLabels);
+		widthSlider.setSnapToTicks(true);
+		widthSlider.setMajorTickSpacing(5);
+		widthSlider.setMinorTickSpacing(1);
+		widthSlider.setPaintTicks(true);
+		widthSlider.setPaintLabels(true);
+		widthSlider.setValue((MAXIMUM_LINE + MINIMUM_LINE) / 2);
+	}
+	
 	private void setupScrollPane()
 	{
 		
@@ -109,6 +126,19 @@ public class DrawingPanel extends JPanel
 	
 	private void setupLayout()
 	{
+		appLayout.putConstraint(SpringLayout.NORTH, colorButtons, 0, SpringLayout.NORTH, canvasScroll);
+		appLayout.putConstraint(SpringLayout.SOUTH, colorButtons, 0, SpringLayout.SOUTH, canvasScroll);
+		appLayout.putConstraint(SpringLayout.WEST, colorButtons, 50, SpringLayout.EAST, canvasScroll);
+		appLayout.putConstraint(SpringLayout.EAST, colorButtons, 0, SpringLayout.WEST, functionButtons);
+		
+		appLayout.putConstraint(SpringLayout.NORTH, functionButtons, 200, SpringLayout.EAST, canvasScroll);
+		appLayout.putConstraint(SpringLayout.NORTH, functionButtons, 0, SpringLayout.SOUTH, canvasScroll);
+		appLayout.putConstraint(SpringLayout.NORTH, functionButtons, -50, SpringLayout.EAST, this);
+		appLayout.putConstraint(SpringLayout.NORTH, functionButtons, 0, SpringLayout.NORTH, canvasScroll);
+		
+		appLayout.putConstraint(SpringLayout.NORTH, canvasScroll, 25, SpringLayout.NORTH, this);
+		appLayout.putConstraint(SpringLayout.NORTH, canvasScroll, 50, SpringLayout.WEST, this);
+		appLayout.putConstraint(SpringLayout.NORTH, canvasScroll, -50, SpringLayout.SOUTH, this);
 		
 	}
 	
